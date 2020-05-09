@@ -19,5 +19,5 @@ class Engineer extends Employee {
 }
 
 // let Steven = new Engineer("steven", 9, "astevenaa@gmail.com", "cyborgfirefly");
-console.log(Steven);
+
 module.exports = Engineer;

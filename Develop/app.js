@@ -4,36 +4,48 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-// learned ConfigStore from https://www.sitepoint.com/javascript-command-line-interface-cli-node-js/
-const Configstore = require("configstore");
-const conf = new Configstore("ginit");
+// // learned ConfigStore from https://www.sitepoint.com/javascript-command-line-interface-cli-node-js/
+// const Configstore = require("configstore");
+// const conf = new Configstore("ginit");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-let questions = inquirer.prompt([
-  {
-    type: "input",
-    name: "name",
-    message: "please enter manager's name:",
-  },
-  {
-    type: "input",
-    name: "id",
-    message: "please enter manager's ID:",
-  },
-  {
-    type: "input",
-    name: "name",
-    message: "please enter manager's email:",
-  },
-  {
-    type: "input",
-    name: "name",
-    message: "please enter manager's office number:",
-  },
-]);
-
+function managerFirst() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "fullName",
+        message: "please enter manager's name:",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "please enter manager's ID:",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "please enter manager's email:",
+      },
+      {
+        type: "input",
+        name: "officeNum",
+        message: "please enter manager's office number:",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.fullName,
+        answers.id,
+        answers.email,
+        answers.officeNum
+      );
+      return manager;
+    });
+}
+managerFirst();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
