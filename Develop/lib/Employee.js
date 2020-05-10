@@ -2,25 +2,25 @@
 
 class Employee {
   constructor(name, id, email) {
-    this._name = name;
-    this._id = id;
-    this._email = email;
+    this.name = name;
+    this.id = id;
+    this.email = email;
   }
   getId() {
-    return this._id;
+    return this.id;
   }
   // set id(newID) {
   //   return (this._id = newID1);
   // }
   getName() {
-    return this._name.toUpperCase();
+    return this.name;
   }
   // set name(newName) {
   //   return (this._name = newName);
   // }
 
   getEmail() {
-    return this._email;
+    return this.email;
   }
   getRole() {
     return "Employee";
