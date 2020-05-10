@@ -11,8 +11,11 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-const employeeList = [];
 
+//array for all the answers
+const employeeList = [];
+//you will alway first need to input the one manager
+managerFirst();
 function managerFirst() {
   inquirer
     .prompt([
@@ -44,9 +47,11 @@ function managerFirst() {
         answers.email,
         answers.officeNum
       );
+      //pushing the varibale into the array
       let addEmployee = employeeList.push(manager);
       return addEmployee;
     })
+    //after than no more manager input
     .then(() => {
       addNewPerson();
     });
@@ -87,6 +92,7 @@ function addEngineer() {
       return addEmployee;
     })
     .then(() => {
+      //goes to the addNewPerson() and user has a choice if they want to add a new employee
       addNewPerson();
     });
 }
@@ -125,10 +131,12 @@ function addIntern() {
       let addEmployee = employeeList.push(intern);
       return addEmployee;
     })
+    //goes to the addNewPerson() and user has a choice if they want to add a new employee
     .then(() => {
       addNewPerson();
     });
 }
+// after every intern or engineer cli is answered it will alway come back to this function and you can choose to add a new person or render the input
 
 function addNewPerson() {
   inquirer
@@ -140,17 +148,17 @@ function addNewPerson() {
         choices: ["intern", "engineer", "done"],
       },
     ])
+    //object destructuring
     .then(({ addNewEmployee }) => {
+      //ternay operator
       return addNewEmployee === "intern"
         ? addIntern()
         : addNewEmployee === "engineer"
         ? addEngineer()
-        : // comment:difhiasduh CHBvcujxYgvbuiadfshgyaiusdbgv
+        : // im frustrated on how to connect all this to the htmldifhiasduh CHBvcujxYgvbuiadfshgyaiusdbgv
           render(employeeList);
     });
 }
-
-managerFirst();
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct  classes as blueprints!)
