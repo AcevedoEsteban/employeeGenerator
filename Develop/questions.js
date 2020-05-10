@@ -40,7 +40,7 @@ function managerFirst() {
     });
 }
 
-function newEngineer() {
+function addEngineer() {
   inquirer
     .prompt([
       {
@@ -76,7 +76,7 @@ function newEngineer() {
     });
 }
 
-function newIntern() {
+function addIntern() {
   inquirer
     .prompt([
       {
@@ -113,5 +113,23 @@ function newIntern() {
 }
 
 function addEmployee() {
-  inquirer.prompt([{}]);
+  managerFirst();
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "add new employee",
+        name: "addNewEmployee",
+        choices: ["intern", "engineer"],
+      },
+    ])
+    .then(({ addPerson }) => {
+      if (addPerson == "intern") {
+        return addIntern();
+      } else if (addPerson == "engineer") {
+        return addEngineer();
+      } else {
+        console.log("all done");
+      }
+    });
 }

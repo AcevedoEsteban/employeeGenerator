@@ -1,16 +1,18 @@
+// // learned ConfigStore from https://www.sitepoint.com/javascript-command-line-interface-cli-node-js/
+// const Configstore = require("configstore");
+// const conf = new Configstore("ginit");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
-// // learned ConfigStore from https://www.sitepoint.com/javascript-command-line-interface-cli-node-js/
-// const Configstore = require("configstore");
-// const conf = new Configstore("ginit");
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const employeeList = [];
+
 function managerFirst() {
   inquirer
     .prompt([
@@ -42,12 +44,116 @@ function managerFirst() {
         answers.email,
         answers.officeNum
       );
-      return manager;
+      let addEmployee = employeeList.push(manager);
+      return addEmployee;
+    })
+    .then(() => {
+      addNewPerson();
     });
 }
+
+function addEngineer() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "fullName",
+        message: "please enter engineer's name:",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "please enter engineer's ID:",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "please enter engineer's email:",
+      },
+      {
+        type: "input",
+        name: "officeNum",
+        message: "please enter engineer's office number:",
+      },
+    ])
+    .then((answers) => {
+      const engineer = new Engineer(
+        answers.fullName,
+        answers.id,
+        answers.email,
+        answers.officeNum
+      );
+      let addEmployee = employeeList.push(engineer);
+      return addEmployee;
+    })
+    .then(() => {
+      addNewPerson();
+    });
+}
+
+function addIntern() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "fullName",
+        message: "please enter intern's name:",
+      },
+      {
+        type: "input",
+        name: "id",
+        message: "please enter intern's ID:",
+      },
+      {
+        type: "input",
+        name: "email",
+        message: "please enter intern's email:",
+      },
+      {
+        type: "input",
+        name: "officeNum",
+        message: "please enter intern's office number:",
+      },
+    ])
+    .then((answers) => {
+      const intern = new Intern(
+        answers.fullName,
+        answers.id,
+        answers.email,
+        answers.officeNum
+      );
+      let addEmployee = employeeList.push(intern);
+      return addEmployee;
+    })
+    .then(() => {
+      addNewPerson();
+    });
+}
+
+function addNewPerson() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        message: "add new employee",
+        name: "addNewEmployee",
+        choices: ["intern", "engineer", "done"],
+      },
+    ])
+    .then(({ addNewEmployee }) => {
+      return addNewEmployee === "intern"
+        ? addIntern()
+        : addNewEmployee === "engineer"
+        ? addEngineer()
+        : // comment:difhiasduh CHBvcujxYgvbuiadfshgyaiusdbgv
+          render(employeeList);
+    });
+}
+
 managerFirst();
+
 // Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+// and to create objects for each team member (using the correct  classes as blueprints!)
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
